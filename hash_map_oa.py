@@ -1,7 +1,7 @@
-# Name:
-# OSU Email:
-# Course: CS261 - Data Structures
-# Assignment:
+# Name:Cassandra Kramer
+# OSU Email: kramecas@oregonstate.edu
+# Course: CS261 - Data Structures/ Section 405
+# Assignment: 6
 # Due Date:
 # Description:
 
@@ -87,27 +87,62 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation
+        This method updates the key/value pair in the hash map.
         """
-        pass
+        if self.table_load() >= .5:
+            self.resize_table(self._capacity * 2)
 
+        hash_entry = HashEntry(key, value)
+        new_hash = hash_function_1(key)
+        hash_index = new_hash % self._capacity
+
+        if self._buckets.get_at_index(hash_index) is None:
+            self._buckets.set_at_index(hash_index, hash_entry)
+            self._size += 1
+
+        else:
+            old_value = self._buckets.get_at_index(hash_index)
+            old_value.value = value
+            self._buckets.set_at_index(hash_index, hash_entry)
+            self._size += 1
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        Returns the current hash table load factor
         """
-        pass
-
+        load = self.get_size() / self.get_capacity()
+        return load
     def empty_buckets(self) -> int:
         """
-        TODO: Write this implementation
+        Returns the number of empty buckets
         """
-        pass
+        empty_buckets = self.get_capacity() - self.get_size()
+        return empty_buckets
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        Changes the capacity of the internal hash table.
         """
-        pass
+        if new_capacity >= self.get_size():
+            return
+
+        if self._is_prime(new_capacity) is False:
+            new_capacity = self._next_prime(new_capacity)
+
+
+        new_hash = HashMap(new_capacity, self._hash_function)
+        new_buckets = DynamicArray()
+        new_hash.new_buckets = new_buckets
+
+
+        for index in range(new_hash.get_capacity()):
+            new_buckets.append(None)
+
+        for index in range(self._capacity):
+            num = self._buckets.get_at_index(index)
+            if num is not None:
+                new_hash.put(num.key, num.value)
+        self._capacity = new_capacity
+        self._buckets = new_buckets
 
     def get(self, key: str) -> object:
         """
