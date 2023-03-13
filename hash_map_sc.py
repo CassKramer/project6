@@ -116,7 +116,7 @@ class HashMap:
         """
         buckets = 0
         for index in range(self._buckets.length()):
-            if self._buckets[index] is None:
+            if self._buckets[index].length() == 0:
                 buckets += 1
         return buckets
 
