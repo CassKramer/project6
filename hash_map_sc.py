@@ -172,21 +172,43 @@ class HashMap:
 
     def get(self, key: str):
         """
-        TODO: Write this implementation
+        Returns the value associated with the given key
         """
-        pass
+        new_hash = self._hash_function(key)
+        hash_index = new_hash % self._capacity
+
+        num = self._buckets[hash_index]
+        if num.length() > 0:
+            node = num.contains(key)
+            if node is not None:
+                return node.value
+        return None
 
     def contains_key(self, key: str) -> bool:
         """
-        TODO: Write this implementation
+        Returns True if the given key is in the hash map, or otherwise returns False
         """
-        pass
+        if self.get(key) is not None:
+                return True
+        return False
+
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        Removes the given key and associated value
         """
-        pass
+        new_hash = self._hash_function(key)
+        hash_index = new_hash % self._capacity
+
+        num = self._buckets[hash_index]
+        if num.length() > 0:
+            node = num.contains(key)
+            if node is not None:
+                num.remove(key)
+                self._size -= 1
+            else:
+                return None
+
 
     def get_keys_and_values(self) -> DynamicArray:
         """
