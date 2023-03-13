@@ -98,11 +98,11 @@ class HashMap:
         new_hash = self._hash_function(key)
         hash_index = new_hash % self._capacity
 
-        if self._buckets[hash_index] is None:
+        if self._buckets[hash_index].length() == 0:
             self._buckets[hash_index].insert(key, value)
             self._size += 1
 
-        elif self._buckets[hash_index] is not None:
+        elif self._buckets[hash_index] != 0:
             if self._buckets[hash_index].contains(key) is not None:
                 node = self._buckets[hash_index].contains(key)
                 node.value = value
@@ -179,9 +179,9 @@ class HashMap:
 
         num = self._buckets[hash_index]
         if num.length() > 0:
-            node = num.contains(key)
-            if node is not None:
-                return node.value
+            hash_node = num.contains(key)
+            if hash_node is not None:
+                return hash_node.value
         return None
 
     def contains_key(self, key: str) -> bool:
@@ -189,7 +189,7 @@ class HashMap:
         Returns True if the given key is in the hash map, or otherwise returns False
         """
         if self.get(key) is not None:
-                return True
+            return True
         return False
 
 
