@@ -89,6 +89,7 @@ class HashMap:
         """
         This method updates the key/value pair in the hash map.
         """
+        probe = 1
         if self.table_load() >= .5:
             self.resize_table(self._capacity * 2)
 
@@ -101,8 +102,14 @@ class HashMap:
             self._size += 1
 
         else:
-            old_value = self._buckets.get_at_index(hash_index)
-            old_value.value = value
+            while self._buckets.get_at_index(hash_index) is not None:
+                if self._buckets.get_at_index(hash_index).key == key:
+                    old_value = self._buckets.get_at_index(hash_index)
+                    old_value.value = value
+                    self._buckets.set_at_index(hash_index, hash_entry)
+                hash_index = (hash_index + probe ** 2) % self._capacity
+                probe += 1
+
             self._buckets.set_at_index(hash_index, hash_entry)
             self._size += 1
     def table_load(self) -> float:
@@ -131,24 +138,28 @@ class HashMap:
 
         new_hash = HashMap(new_capacity, self._hash_function)
         new_buckets = DynamicArray()
-        new_hash.new_buckets = new_buckets
+        new_hash.buckets = new_buckets
 
 
         for index in range(new_hash.get_capacity()):
             new_buckets.append(None)
 
-        for index in range(self._capacity):
+        for index in range(self._buckets.length()):
             num = self._buckets.get_at_index(index)
             if num is not None:
                 new_hash.put(num.key, num.value)
         self._capacity = new_capacity
-        self._buckets = new_buckets
+        self._buckets = new_hash.buckets
 
     def get(self, key: str) -> object:
         """
-        TODO: Write this implementation
+        Returns the value associated with the given key
         """
-        pass
+        for index in range(self._buckets.length()):
+            num = self._buckets.get_at_index(index)
+            if num is not None:
+                if num.key == key:
+                    return num.value
 
     def contains_key(self, key: str) -> bool:
         """
