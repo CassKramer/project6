@@ -90,101 +90,130 @@ class HashMap:
         This method updates the key/value pair in the hash map.
         """
         probe = 1
+
         if self.table_load() >= .5:
             self.resize_table(self._capacity * 2)
 
         hash_entry = HashEntry(key, value)
-        new_hash = hash_function_1(key)
+        new_hash = self._hash_function(key)
         hash_index = new_hash % self._capacity
+        initial_index = hash_index
 
-        if self._buckets.get_at_index(hash_index) is None:
-            self._buckets.set_at_index(hash_index, hash_entry)
-            self._size += 1
+        if self._buckets[hash_index] is None:
+            self._buckets[hash_index] = hash_entry
+
 
         else:
-            while self._buckets.get_at_index(hash_index) is not None:
-                if self._buckets.get_at_index(hash_index).key == key:
-                    old_value = self._buckets.get_at_index(hash_index)
+            while self._buckets[hash_index] is not None:
+                if self._buckets[hash_index].key == key:
+                    old_value = self._buckets[hash_index]
                     old_value.value = value
-                    self._buckets.set_at_index(hash_index, hash_entry)
+                    self._buckets[hash_index] = hash_entry
                     return
-                hash_index = (hash_index + probe ** 2) % self._capacity
-                probe += 1
+                else:
+                    hash_index = (initial_index + probe ** 2) % self._capacity
+                    probe += 1
 
-            self._buckets.set_at_index(hash_index, hash_entry)
-            self._size += 1
+            self._buckets[hash_index] = hash_entry
+        self._size += 1
+
     def table_load(self) -> float:
         """
         Returns the current hash table load factor
         """
-        load = self.get_size() / self.get_capacity()
+        load = self._size / self._capacity
         return load
+
     def empty_buckets(self) -> int:
         """
         Returns the number of empty buckets
         """
-        empty_buckets = self.get_capacity() - self.get_size()
+        empty_buckets = 0
+        for index in range(self._capacity):
+            if self._buckets[index] is None or self._buckets[index].is_tombstone is True:
+                empty_buckets += 1
         return empty_buckets
 
     def resize_table(self, new_capacity: int) -> None:
         """
         Changes the capacity of the internal hash table.
         """
-        if new_capacity >= self.get_size():
+        if new_capacity >= self._size:
             return
 
+        hash_capacity = new_capacity
+
         if self._is_prime(new_capacity) is False:
-            new_capacity = self._next_prime(new_capacity)
+            hash_capacity = self._next_prime(new_capacity)
 
-
-        new_hash = HashMap(new_capacity, self._hash_function)
+        new_hash = HashMap(hash_capacity, self._hash_function)
         new_buckets = DynamicArray()
-        new_hash.buckets = new_buckets
+        new_hash._buckets = new_buckets
 
-
-        for index in range(new_hash.get_capacity()):
+        for index in range(new_hash._capacity):
             new_buckets.append(None)
 
-        for index in range(self._buckets.length()):
-            num = self._buckets.get_at_index(index)
-            if num is not None:
+        for index in range(self._capacity):
+            num = self._buckets[index]
+            if num is not None and num.is_tombstone is False:
                 new_hash.put(num.key, num.value)
-        self._capacity = new_capacity
-        self._buckets = new_hash.buckets
+
+        self._capacity = new_hash._capacity
+        self._buckets = new_hash._buckets
 
     def get(self, key: str) -> object:
         """
         Returns the value associated with the given key
         """
         for index in range(self._buckets.length()):
-            num = self._buckets.get_at_index(index)
+            num = self._buckets[index]
             if num is not None:
                 if num.key == key:
                     return num.value
 
     def contains_key(self, key: str) -> bool:
         """
-        TODO: Write this implementation
+        If the key is in the hash map, it returns True, otherwise False
         """
-        pass
+        for index in range(self._buckets.length()):
+            num = self._buckets[index]
+            if num is not None:
+                if num.key == key:
+                    return True
+        return False
+
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        Removes given key and value from hash map
         """
-        pass
+
+        new_hash = self._hash_function(key)
+        hash_index = new_hash % self._capacity
+        initial_index = hash_index
+
+        num = self._buckets[hash_index]
+        if num is not None:
+            if num.key == key:
+                num.is_tombstone is True
+                self._size -= 1
+
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        Clears the contents of the hash map
         """
-        pass
+        some_buckets = DynamicArray()
+        for index in range(self._capacity):
+            some_buckets.append(None)
+        self._buckets = some_buckets
+        self._size = 0
 
     def get_keys_and_values(self) -> DynamicArray:
         """
-        TODO: Write this implementation
+        Returns a dynamic array where each index contains a tuple of a key/value pair stored in the hash map
         """
-        pass
+
 
     def __iter__(self):
         """

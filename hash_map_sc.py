@@ -90,19 +90,38 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation
+        Updates the key/value pair in the hash map
         """
-        pass
+        if self.table_load() >= 1.0:
+            self.resize_table(self._capacity * 2)
+
+        new_hash = self._hash_function(key)
+        hash_index = new_hash % self._capacity
+
+        if self._buckets[hash_index] is None:
+            self._buckets[hash_index].insert(key, value)
+
+        elif self._buckets[hash_index] is not None:
+            if self._buckets[hash_index].contains(key) is not None:
+                node = self._buckets[hash_index].contains(key)
+                node.value = value
+
+            else:
+                self._buckets[hash_index].insert(key, value)
 
     def empty_buckets(self) -> int:
         """
-        TODO: Write this implementation
+        Returns the number of empty buckets
         """
-        pass
+        buckets = 0
+        for index in range(self._buckets.length()):
+            if self._buckets[index] is None:
+                buckets += 1
+        return buckets
 
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        Returns the current
         """
         pass
 
