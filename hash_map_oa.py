@@ -107,6 +107,7 @@ class HashMap:
                     old_value = self._buckets.get_at_index(hash_index)
                     old_value.value = value
                     self._buckets.set_at_index(hash_index, hash_entry)
+                    return
                 hash_index = (hash_index + probe ** 2) % self._capacity
                 probe += 1
 
