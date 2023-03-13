@@ -121,21 +121,26 @@ class HashMap:
 
     def table_load(self) -> float:
         """
-        Returns the current
+        Returns the current hash table load factor
         """
-        pass
+        load_factor = self._size / self._capacity
+        return load_factor
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        Clears the contents of the hash map
         """
-        pass
+        some_buckets = DynamicArray()
+        for index in range(self._capacity):
+            some_buckets.append(None)
+        self._buckets = some_buckets
+        self._size = 0
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        Changes the capacity of the internal hash table
         """
-        pass
+
 
     def get(self, key: str):
         """
