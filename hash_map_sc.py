@@ -118,6 +118,7 @@ class HashMap:
         for index in range(self._buckets.length()):
             if self._buckets[index].length() == 0:
                 buckets += 1
+
         return buckets
 
     def table_load(self) -> float:
