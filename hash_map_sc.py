@@ -142,7 +142,7 @@ class HashMap:
         """
         Changes the capacity of the internal hash table
         """
-        if new_capacity <= 1.0:
+        if new_capacity < 1.0:
             return
 
 
@@ -214,11 +214,24 @@ class HashMap:
 
     def get_keys_and_values(self) -> DynamicArray:
         """
-        TODO: Write this implementation
+        Returns a dynamic array where each index contains a tuple of a key/value pair stored in the hash map
         """
-        pass
+        new_buckets = DynamicArray()
+        for index in range(self._capacity):
+            new_buckets.append(LinkedList())
 
+        for index in range(self._capacity):
 
+            for index in range(self._capacity):
+                num = self._buckets[index]
+                if num.length() != 0:
+                    for index in num:
+                        new_hash = self._hash_function(index.key)
+                        hash_index = new_hash % hash_capacity
+                        new_buckets[hash_index].insert(index.key, index.value)
+
+            self._capacity = hash_capacity
+            self._buckets = new_buckets
 def find_mode(da: DynamicArray) -> (DynamicArray, int):
     """
     TODO: Write this implementation
