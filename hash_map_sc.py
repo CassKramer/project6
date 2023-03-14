@@ -145,7 +145,6 @@ class HashMap:
         if new_capacity < 1.0:
             return
 
-
         hash_capacity = new_capacity
 
         if self._is_prime(new_capacity) is False:
