@@ -142,7 +142,7 @@ class HashMap:
         """
         Changes the capacity of the internal hash table
         """
-        if new_capacity < 1:
+        if new_capacity < 1.0:
             return
 
         hash_capacity = new_capacity
@@ -150,21 +150,22 @@ class HashMap:
         if self._is_prime(new_capacity) is False:
             hash_capacity = self._next_prime(new_capacity)
 
-        new_hash = HashMap(hash_capacity, self._hash_function)
+        #new_hash = HashMap(hash_capacity, self._hash_function)
         new_buckets = DynamicArray()
 
 
-        for index in range(new_hash._capacity):
+        for index in range(hash_capacity):
+
             new_buckets.append(LinkedList())
 
         for index in range(self._capacity):
             num = self._buckets[index]
-            if num is not None:
+            if num.length() != 0:
                 for index in num:
-                    key = index.key
-                    new_hash = self._hash_function(key)
-                    hash_index = new_hash % self._capacity
-                    new_buckets[hash_index].insert(key, index.value)
+
+                    new_hash = self._hash_function(index.key)
+                    hash_index = new_hash % hash_capacity
+                    new_buckets[hash_index].insert(index.key, index.value)
 
 
         self._capacity = hash_capacity
