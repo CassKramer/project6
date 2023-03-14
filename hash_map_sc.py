@@ -134,7 +134,7 @@ class HashMap:
         """
         some_buckets = DynamicArray()
         for index in range(self._capacity):
-            some_buckets.append(0)
+            some_buckets.append(LinkedList())
         self._buckets = some_buckets
         self._size = 0
 
