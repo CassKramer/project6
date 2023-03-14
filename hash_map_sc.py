@@ -142,8 +142,9 @@ class HashMap:
         """
         Changes the capacity of the internal hash table
         """
-        if new_capacity < 1.0:
+        if new_capacity <= 1.0:
             return
+
 
         hash_capacity = new_capacity
 
