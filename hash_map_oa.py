@@ -258,6 +258,18 @@ class HashMap:
         Returns a dynamic array where each index contains a tuple of a key/value pair stored in the hash map
         """
 
+        new_buckets = DynamicArray()
+        for index in range(self._capacity):
+            new_buckets.append(None)
+
+        for index in range(self._capacity):
+            num = self._buckets[index]
+
+            if num is not None and num.is_tombstone is False:
+                new_tuple = tuple((num.key, num.value))
+                new_buckets.append(new_tuple)
+
+        return new_buckets
 
     def __iter__(self):
         """
