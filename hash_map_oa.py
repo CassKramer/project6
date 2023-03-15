@@ -179,7 +179,7 @@ class HashMap:
         for index in range(self._buckets.length()):
             num = self._buckets[index]
             if num is not None:
-                if num.key == key:
+                if num.key == key and num.is_tombstone is False:
                     return True
         return False
 
