@@ -198,7 +198,6 @@ class HashMap:
             return None
 
         elif self._buckets[hash_index].is_tombstone is True and self._buckets[hash_index].key == key:
-            self._size -= 1
             return None
 
         else:
@@ -211,11 +210,6 @@ class HashMap:
                     hash_index = (initial_index + probe ** 2) % self._capacity
                     probe += 1
         return None
-
-
-
-
-
 
     def clear(self) -> None:
         """
