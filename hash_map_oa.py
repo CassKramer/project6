@@ -174,7 +174,7 @@ class HashMap:
             return None
         else:
             while self._buckets[hash_index] is not None:
-                if self._buckets[hash_index].key == key:
+                if self._buckets[hash_index].key == key and self._buckets[hash_index].is_tombstone is False:
                     return self._buckets[hash_index].value
 
                 else:
