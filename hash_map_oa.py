@@ -181,11 +181,9 @@ class HashMap:
             return None
         else:
             while self._buckets[hash_index] is not None:
-                if self._buckets[hash_index].key == key:
-                    if self._buckets[hash_index].is_tombstone is False:
-                        return self._buckets[hash_index].value
-                    else:
-                        return None
+                if self._buckets[hash_index].key == key and self._buckets[hash_index].is_tombstone is False:
+                    return self._buckets[hash_index].value
+
 
                 else:
                     hash_index = (initial_index + probe ** 2) % self._capacity
@@ -208,11 +206,11 @@ class HashMap:
             return False
         else:
             while self._buckets[hash_index] is not None:
-                if self._buckets[hash_index].key == key:
-                    if self._buckets[hash_index].is_tombstone is False:
-                        return True
-                    else:
-                        return False
+                if self._buckets[hash_index].key == key and self._buckets[hash_index].is_tombstone is False:
+                    return True
+
+                elif self._buckets[hash_index].key == key and self._buckets[hash_index].is_tombstone is True:
+                    return False
 
                 else:
                     hash_index = (initial_index + probe ** 2) % self._capacity
