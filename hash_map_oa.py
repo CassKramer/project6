@@ -165,17 +165,29 @@ class HashMap:
         """
         Returns the value associated with the given key
         """
-        for index in range(self._buckets.length()):
-            num = self._buckets[index]
-            if num is not None:
-                if num.key == key and num.is_tombstone is False:
-                    return num.value
+        probe = 1
+        new_hash = self._hash_function(key)
+        hash_index = new_hash % self._capacity
+        initial_index = hash_index
+
+        num = self._buckets[hash_index]
+        if num is not None:
+            if num.key == key and num.is_tombstone is False:
+                return num.value
+
+            else:
+                hash_index = (initial_index + probe ** 2) % self._capacity
+                probe += 1
+
         return None
 
     def contains_key(self, key: str) -> bool:
         """
         If the key is in the hash map, it returns True, otherwise False
         """
+
+
+
         for index in range(self._buckets.length()):
             num = self._buckets[index]
             if num is not None:
