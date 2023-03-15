@@ -187,15 +187,23 @@ class HashMap:
         """
         If the key is in the hash map, it returns True, otherwise False
         """
+        probe = 1
+        new_hash = self._hash_function(key)
+        hash_index = new_hash % self._capacity
+        initial_index = hash_index
 
-
-
-        for index in range(self._buckets.length()):
-            num = self._buckets[index]
-            if num is not None:
-                if num.key == key and num.is_tombstone is False:
+        if self._buckets[hash_index] is None:
+            return False
+        else:
+            while self._buckets[hash_index] is not None:
+                if self._buckets[hash_index].key == key and self._buckets[hash_index].is_tombstone is False:
                     return True
-        return False
+
+                else:
+                    hash_index = (initial_index + probe ** 2) % self._capacity
+                    probe += 1
+
+            return False
 
 
     def remove(self, key: str) -> None:
