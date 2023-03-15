@@ -138,28 +138,33 @@ class HashMap:
         """
         Changes the capacity of the internal hash table.
         """
+
         if new_capacity < self._size:
             return
 
         hash_capacity = new_capacity
+        self._capacity = hash_capacity
 
         if self._is_prime(new_capacity) is False:
             hash_capacity = self._next_prime(new_capacity)
+            self._capacity = hash_capacity
 
         new_hash = HashMap(hash_capacity, self._hash_function)
-        new_buckets = DynamicArray()
-        new_hash._buckets = new_buckets
+        self._buckets = DynamicArray()
 
-        for index in range(new_hash._capacity):
-            new_buckets.append(None)
+        for index in range(hash_capacity):
+            self._buckets.append(None)
+
+        new_hash._size = 0
 
         for index in range(self._capacity):
             num = self._buckets[index]
             if num is not None and num.is_tombstone is False:
                 new_hash.put(num.key, num.value)
 
-        self._capacity = new_hash._capacity
-        self._buckets = new_hash._buckets
+        if self.table_load() > 0.5:
+            self.resize_table(self._capacity * 2)
+
 
     def get(self, key: str) -> object:
         """
@@ -174,10 +179,14 @@ class HashMap:
             return None
         else:
             while self._buckets[hash_index] is not None:
-                if self._buckets[hash_index].key == key and self._buckets[hash_index].is_tombstone is False:
-                    return self._buckets[hash_index].value
+                if self._buckets[hash_index].key == key:
+                    if self._buckets[hash_index].is_tombstone is False:
+                        return self._buckets[hash_index].value
+                    else:
+                        return None
 
                 else:
+
                     hash_index = (initial_index + probe ** 2) % self._capacity
                     probe += 1
 
@@ -196,8 +205,12 @@ class HashMap:
             return False
         else:
             while self._buckets[hash_index] is not None:
-                if self._buckets[hash_index].key == key and self._buckets[hash_index].is_tombstone is False:
-                    return True
+
+                if self._buckets[hash_index].key == key:
+                    if self._buckets[hash_index].is_tombstone is False:
+                        return True
+                    else:
+                        return False
 
                 else:
                     hash_index = (initial_index + probe ** 2) % self._capacity
