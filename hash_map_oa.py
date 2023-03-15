@@ -166,6 +166,8 @@ class HashMap:
             self.resize_table(self._capacity * 2)
 
 
+
+
     def get(self, key: str) -> object:
         """
         Returns the value associated with the given key
@@ -186,9 +188,10 @@ class HashMap:
                         return None
 
                 else:
-
                     hash_index = (initial_index + probe ** 2) % self._capacity
                     probe += 1
+
+            return None
 
 
 
@@ -205,7 +208,6 @@ class HashMap:
             return False
         else:
             while self._buckets[hash_index] is not None:
-
                 if self._buckets[hash_index].key == key:
                     if self._buckets[hash_index].is_tombstone is False:
                         return True
@@ -248,7 +250,6 @@ class HashMap:
                     hash_index = (initial_index + probe ** 2) % self._capacity
                     probe += 1
         return None
-
     def clear(self) -> None:
         """
         Clears the contents of the hash map
