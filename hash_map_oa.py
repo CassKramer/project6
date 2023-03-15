@@ -198,6 +198,7 @@ class HashMap:
             return None
 
         elif self._buckets[hash_index].is_tombstone is True and self._buckets[hash_index].key == key:
+            self._size -= 1
             return None
 
         else:
