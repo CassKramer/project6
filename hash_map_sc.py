@@ -220,17 +220,14 @@ class HashMap:
             new_buckets.append(LinkedList())
 
         for index in range(self._capacity):
+            num = self._buckets[index]
+            if num.length() != 0:
+                for index in num:
+                    new_tuple = tuple(("index.key", "index.value"))
+                    new_buckets[index] = new_tuple
 
-            for index in range(self._capacity):
-                num = self._buckets[index]
-                if num.length() != 0:
-                    for index in num:
-                        new_hash = self._hash_function(index.key)
-                        hash_index = new_hash % hash_capacity
-                        new_buckets[hash_index].insert(index.key, index.value)
 
-            self._capacity = hash_capacity
-            self._buckets = new_buckets
+        return new_buckets
 def find_mode(da: DynamicArray) -> (DynamicArray, int):
     """
     TODO: Write this implementation

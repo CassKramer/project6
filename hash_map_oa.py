@@ -170,6 +170,7 @@ class HashMap:
             if num is not None:
                 if num.key == key:
                     return num.value
+        return None
 
     def contains_key(self, key: str) -> bool:
         """
@@ -187,16 +188,32 @@ class HashMap:
         """
         Removes given key and value from hash map
         """
+        probe = 1
 
         new_hash = self._hash_function(key)
         hash_index = new_hash % self._capacity
         initial_index = hash_index
 
-        num = self._buckets[hash_index]
-        if num is not None:
-            if num.key == key:
-                num.is_tombstone is True
-                self._size -= 1
+        if self._buckets[hash_index] is None:
+            return None
+
+        elif self._buckets[hash_index].is_tombstone is True:
+            return None
+
+        else:
+            while self._buckets[hash_index] is not None:
+                if self._buckets[hash_index].key == key:
+                    self._buckets[hash_index].is_tombstone = True
+                    self._size -= 1
+                    return
+                else:
+                    hash_index = (initial_index + probe ** 2) % self._capacity
+                    probe += 1
+        return None
+
+
+
+
 
 
     def clear(self) -> None:
