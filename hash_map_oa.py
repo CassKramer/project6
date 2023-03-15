@@ -170,16 +170,18 @@ class HashMap:
         hash_index = new_hash % self._capacity
         initial_index = hash_index
 
-        num = self._buckets[hash_index]
-        if num is not None:
-            if num.key == key and num.is_tombstone is False:
-                return num.value
+        if self._buckets[hash_index] is None:
+            return None
+        else:
+            while self._buckets[hash_index] is not None:
+                if self._buckets[hash_index].key == key:
+                    return self._buckets[hash_index].value
 
-            else:
-                hash_index = (initial_index + probe ** 2) % self._capacity
-                probe += 1
+                else:
+                    hash_index = (initial_index + probe ** 2) % self._capacity
+                    probe += 1
 
-        return None
+
 
     def contains_key(self, key: str) -> bool:
         """
