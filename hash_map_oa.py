@@ -203,9 +203,12 @@ class HashMap:
         else:
             while self._buckets[hash_index] is not None:
                 if self._buckets[hash_index].key == key:
-                    self._buckets[hash_index].is_tombstone = True
-                    self._size -= 1
-                    return
+                    if self._buckets[hash_index].is_tombstone is True:
+                        return None
+                    else:
+                        self._buckets[hash_index].is_tombstone = True
+                        self._size -= 1
+                        return None
                 else:
                     hash_index = (initial_index + probe ** 2) % self._capacity
                     probe += 1
