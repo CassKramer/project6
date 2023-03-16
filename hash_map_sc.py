@@ -221,12 +221,11 @@ class HashMap:
 
         for index in range(self._capacity):
             num = self._buckets[index]
-            if num.length() != 0:
+            if num.length() > 0:
+
                 for index in num:
-                    new_tuple = tuple(("index.key", "index.value"))
-                    new_buckets[index] = new_tuple
-
-
+                    new_tuple = tuple((index.key, index.value))
+                    new_buckets.append(new_tuple)
         return new_buckets
 def find_mode(da: DynamicArray) -> (DynamicArray, int):
     """
