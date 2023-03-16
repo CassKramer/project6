@@ -259,6 +259,7 @@ class HashMap:
         """
 
         new_buckets = DynamicArray()
+
         for index in range(self._capacity):
             new_buckets.append(None)
 
@@ -273,15 +274,25 @@ class HashMap:
 
     def __iter__(self):
         """
-        TODO: Write this implementation
+        Enables the hash map to iterate across itself
         """
-        pass
+        self._index = 0
+
+
+        return self
 
     def __next__(self):
         """
-        TODO: Write this implementation
+        Returns the next item in the hash map, based on the current location of the iterator
         """
-        pass
+        if self._buckets[self._index + 1] is not None and self._buckets[self._index + 1].is_tomstone is False:
+            value = self._buckets[self._index + 1]
+            return value
+        else:
+            raise StopIteration
+
+        #self._index = self._index + 1
+
 
 
 # ------------------- BASIC TESTING ---------------------------------------- #
