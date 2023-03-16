@@ -150,7 +150,7 @@ class HashMap:
         if self._is_prime(new_capacity) is False:
             hash_capacity = self._next_prime(new_capacity)
 
-        #new_hash = HashMap(hash_capacity, self._hash_function)
+       # new_hash = HashMap(hash_capacity, self._hash_function)
         new_buckets = DynamicArray()
 
 
@@ -162,7 +162,7 @@ class HashMap:
             num = self._buckets[index]
             if num.length() != 0:
                 for index in num:
-
+                    #new_hash.put(num.key, num.value)
                     new_hash = self._hash_function(index.key)
                     hash_index = new_hash % hash_capacity
                     new_buckets[hash_index].insert(index.key, index.value)
@@ -216,8 +216,8 @@ class HashMap:
         Returns a dynamic array where each index contains a tuple of a key/value pair stored in the hash map
         """
         new_buckets = DynamicArray()
-        for index in range(self._capacity):
-            new_buckets.append(LinkedList())
+        #for index in range(self._capacity):
+            #new_buckets.append(LinkedList())
 
         for index in range(self._capacity):
             num = self._buckets[index]

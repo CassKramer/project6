@@ -260,9 +260,6 @@ class HashMap:
 
         new_buckets = DynamicArray()
 
-        #for index in range(self._capacity):
-           # new_buckets.append(None)
-
         for index in range(self._capacity):
             num = self._buckets[index]
 
