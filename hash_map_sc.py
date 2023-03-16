@@ -210,14 +210,11 @@ class HashMap:
             else:
                 return None
 
-
     def get_keys_and_values(self) -> DynamicArray:
         """
         Returns a dynamic array where each index contains a tuple of a key/value pair stored in the hash map
         """
         new_buckets = DynamicArray()
-        #for index in range(self._capacity):
-            #new_buckets.append(LinkedList())
 
         for index in range(self._capacity):
             num = self._buckets[index]
