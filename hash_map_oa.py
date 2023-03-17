@@ -2,8 +2,9 @@
 # OSU Email: kramecas@oregonstate.edu
 # Course: CS261 - Data Structures/ Section 405
 # Assignment: 6
-# Due Date:
-# Description:
+# Due Date: 3/17/2023
+# Description: Use a dynamic array to store a hash table and implement open addressing and quadratic probing for
+# collision resolution
 
 from a6_include import (DynamicArray, DynamicArrayException, HashEntry,
                         hash_function_1, hash_function_2)

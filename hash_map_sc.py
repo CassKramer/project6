@@ -1,9 +1,10 @@
-# Name:
-# OSU Email:
-# Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Name: Cassandra Kramer
+# OSU Email: kramecas@oregonstate.edu
+# Course: CS261 - Data Structures/ Section 405
+# Assignment:6
+# Due Date: 3/17/2023
+# Description: Use a dynamic array to store a hash table and implement chaining for collision
+# resolution
 
 
 from a6_include import (DynamicArray, LinkedList,
@@ -150,7 +151,7 @@ class HashMap:
         if self._is_prime(new_capacity) is False:
             hash_capacity = self._next_prime(new_capacity)
 
-       # new_hash = HashMap(hash_capacity, self._hash_function)
+        new_hash = HashMap(hash_capacity, self._hash_function)
         new_buckets = DynamicArray()
 
 
@@ -226,11 +227,18 @@ class HashMap:
         return new_buckets
 def find_mode(da: DynamicArray) -> (DynamicArray, int):
     """
-    TODO: Write this implementation
+    Receives a dynamic array and returns a tuple containing mode, and how many times it occurs
     """
     # if you'd like to use a hash map,
     # use this instance of your Separate Chaining HashMap
     map = HashMap()
+    #map._buckets = DynamicArray()
+
+    #map.get_keys_and_values()
+    #count = 1
+    #for index in range(map.get_capacity()):
+
+       # if map._buckets.append(index):
 
 
 # ------------------- BASIC TESTING ---------------------------------------- #
