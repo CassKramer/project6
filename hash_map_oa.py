@@ -143,26 +143,31 @@ class HashMap:
         """
         if new_capacity < self._size:
             return
-
+        old_buckets = self._buckets
+        old_capacity = self._capacity
         hash_capacity = new_capacity
 
         if self._is_prime(new_capacity) is False:
             hash_capacity = self._next_prime(new_capacity)
+            self._capacity = hash_capacity
 
-        new_hash = HashMap(hash_capacity, self._hash_function)
-        new_buckets = DynamicArray()
-        new_hash._buckets = new_buckets
+       # map = HashMap(hash_capacity, self._hash_function)
+        self._buckets = DynamicArray()
 
-        for index in range(new_hash._capacity):
-            new_buckets.append(None)
 
         for index in range(self._capacity):
-            num = self._buckets[index]
-            if num is not None and num.is_tombstone is False:
-                new_hash.put(num.key, num.value)
+            self._buckets.append(None)
 
-        self._capacity = new_hash._capacity
-        self._buckets = new_hash._buckets
+        for index in range(old_capacity):
+            num = old_buckets[index]
+            if num is not None and num.is_tombstone is False:
+                self.put(num.key, num.value)
+
+        if self.table_load() > 0.5:
+            self.resize_table(self._capacity * 2)
+
+       # self._capacity = new_hash._capacity
+       # self._buckets = new_hash._buckets
 
     def get(self, key: str) -> object:
         """
