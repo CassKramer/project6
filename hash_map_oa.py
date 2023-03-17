@@ -163,8 +163,8 @@ class HashMap:
             if num is not None and num.is_tombstone is False:
                 self.put(num.key, num.value)
 
-        if self.table_load() > 0.5:
-            self.resize_table(self._capacity * 2)
+       # if self.table_load() > 0.5:
+           # self.resize_table(self._capacity * 2)
 
        # self._capacity = new_hash._capacity
        # self._buckets = new_hash._buckets
