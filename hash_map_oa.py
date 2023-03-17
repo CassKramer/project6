@@ -166,7 +166,7 @@ class HashMap:
             if num is not None and num.is_tombstone is False:
                 self.put(num.key, num.value)
 
-        self._size += 1
+
        # while self.table_load() > 0.5:
           #  self.resize_table(self._capacity * 2)
 
