@@ -157,6 +157,8 @@ class HashMap:
         for index in range(hash_capacity):
             new_buckets.append(LinkedList())
 
+        self._size = 0
+
         for index in range(self._capacity):
             num = self._buckets[index]
             if num.length() != 0:
