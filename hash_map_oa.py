@@ -122,7 +122,7 @@ class HashMap:
         """
         Returns the current hash table load factor
         """
-        load = self._size / self._capacity
+        load = self.get_size() / self.get_capacity()
         return load
 
     def empty_buckets(self) -> int:
@@ -134,8 +134,6 @@ class HashMap:
             if self._buckets[index] is None or self._buckets[index].is_tombstone is True:
                 empty_buckets += 1
         return empty_buckets
-
-
 
     def resize_table(self, new_capacity: int) -> None:
         """
@@ -152,26 +150,17 @@ class HashMap:
             hash_capacity = self._next_prime(new_capacity)
             self._capacity = hash_capacity
 
-       # map = HashMap(self._capacity, self._hash_function)
         self._buckets = DynamicArray()
-
 
         for index in range(hash_capacity):
             self._buckets.append(None)
 
-        self._buckets.size = 0
+        self._size = 0
 
         for index in range(old_capacity):
             num = old_buckets[index]
             if num is not None and num.is_tombstone is False:
                 self.put(num.key, num.value)
-
-
-       # while self.table_load() > 0.5:
-          #  self.resize_table(self._capacity * 2)
-
-       # self._capacity = new_hash._capacity
-       # self._buckets = new_hash._buckets
 
     def get(self, key: str) -> object:
         """
@@ -189,14 +178,11 @@ class HashMap:
                 if self._buckets[hash_index].key == key and self._buckets[hash_index].is_tombstone is False:
                     return self._buckets[hash_index].value
 
-
                 else:
                     hash_index = (initial_index + probe ** 2) % self._capacity
                     probe += 1
 
             return None
-
-
 
     def contains_key(self, key: str) -> bool:
         """
@@ -222,7 +208,6 @@ class HashMap:
                     probe += 1
 
             return False
-
 
     def remove(self, key: str) -> None:
         """
@@ -253,6 +238,7 @@ class HashMap:
                     hash_index = (initial_index + probe ** 2) % self._capacity
                     probe += 1
         return None
+
     def clear(self) -> None:
         """
         Clears the contents of the hash map
@@ -285,7 +271,6 @@ class HashMap:
         """
         self._index = 0
 
-
         return self
 
     def __next__(self):
@@ -298,7 +283,7 @@ class HashMap:
         else:
             raise StopIteration
 
-        #self._index = self._index + 1
+
 
 
 

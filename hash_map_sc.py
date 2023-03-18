@@ -157,7 +157,7 @@ class HashMap:
         for index in range(hash_capacity):
             new_buckets.append(LinkedList())
 
-        new_buckets._size = 0
+        self._size = 0
 
         for index in range(self._capacity):
             num = self._buckets[index]
@@ -239,7 +239,7 @@ def find_mode(da: DynamicArray) -> (DynamicArray, int):
     count = 1
     frequency = 0
 
-    for index in range(map._buckets.length()):
+    for index in range(map.get_size()):
         num = map._buckets[index]
         mode = num
 
