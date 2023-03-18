@@ -154,23 +154,21 @@ class HashMap:
         new_hash = HashMap(hash_capacity, self._hash_function)
         new_buckets = DynamicArray()
 
-
         for index in range(hash_capacity):
-
             new_buckets.append(LinkedList())
 
         for index in range(self._capacity):
             num = self._buckets[index]
             if num.length() != 0:
                 for index in num:
-                    #new_hash.put(num.key, num.value)
+                    # new_hash.put(num.key, num.value)
                     new_hash = self._hash_function(index.key)
                     hash_index = new_hash % hash_capacity
                     new_buckets[hash_index].insert(index.key, index.value)
 
-
         self._capacity = hash_capacity
         self._buckets = new_buckets
+
 
     def get(self, key: str):
         """
@@ -193,7 +191,6 @@ class HashMap:
         if self.get(key) is not None:
             return True
         return False
-
 
     def remove(self, key: str) -> None:
         """
@@ -231,14 +228,46 @@ def find_mode(da: DynamicArray) -> (DynamicArray, int):
     """
     # if you'd like to use a hash map,
     # use this instance of your Separate Chaining HashMap
+
     map = HashMap()
-    #map._buckets = DynamicArray()
+    map._buckets = da
 
-    #map.get_keys_and_values()
-    #count = 1
-    #for index in range(map.get_capacity()):
+    new_buckets = DynamicArray()
 
-       # if map._buckets.append(index):
+    count = 1
+    frequency = 0
+
+    for index in range(map._buckets.length()):
+        num = map._buckets[index]
+        mode = num
+
+        for index in range(index + 1, map._buckets.length()):
+            if map._buckets[index] == mode:
+                count += 1
+
+
+        if count > frequency:
+            some_buckets = DynamicArray()
+            new_buckets = some_buckets
+            new_buckets._size = 0
+            new_buckets.append(mode)
+            new_buckets._size += 1
+            frequency = count
+
+        elif count == frequency:
+            for index in range(new_buckets.length()):
+                if new_buckets[index] != mode:
+                    index += 1
+                    if index > new_buckets.length() - 1:
+                        new_buckets.append(mode)
+                        new_buckets._size += 1
+
+
+        count = 1
+
+
+    return new_buckets, frequency
+
 
 
 # ------------------- BASIC TESTING ---------------------------------------- #
