@@ -159,7 +159,7 @@ class HashMap:
         for index in range(hash_capacity):
             self._buckets.append(None)
 
-        self._size = 0
+        self._buckets.size = 0
 
         for index in range(old_capacity):
             num = old_buckets[index]
